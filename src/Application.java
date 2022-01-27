@@ -26,6 +26,7 @@ public class Application {
 			System.out.println(var.nextGaussian()*2+12); 			
 		}*/
 		
+		
 
 
 	}

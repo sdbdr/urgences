@@ -9,7 +9,11 @@ public class Salle {
 	int tempsAttente; 
 	int tempsConsulation;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
+	
+	public Salle() {
+		this.setTempsConsulation(genererTempsConsultation(3,1));
+	}
+	
 	public Date getArriveeDansLaSalle() {
 		return arriveeDansLaSalle;
 	}
@@ -26,19 +30,30 @@ public class Salle {
 		this.tempsAttente = tempsAttente;
 	}
 	
+	
+	public int getTempsConsulation() {
+		return tempsConsulation;
+	}
+
+	public void setTempsConsulation(int tempsConsulation) {
+		this.tempsConsulation = tempsConsulation;
+	}
+
 	public String toString() {
-		return sdf.format(this.arriveeDansLaSalle)+" ----- temps d'attente : "+this.tempsAttente +"mns";
+		return "\n Arrivee : "+sdf.format(this.arriveeDansLaSalle)+"\n Temps d'attente : "+this.tempsAttente +"mns \n Temps consultation : "+this.tempsConsulation;
 	}
 	
 	
-	public void genererTempsConsultation(int moyenne,int ecart_type) {
+	public int genererTempsConsultation(int moyenne,int ecart_type) {
 		Random var = new Random();
 		//1 hour and std-deviation 15 minutes you'll need to call it as
 		//System.out.println(var.nextGaussian()*15+60); 		
-		System.out.println(var.nextGaussian()*ecart_type+moyenne); 
+		int varAleatoire = (int) (var.nextGaussian()*ecart_type+moyenne);
 		
+		return varAleatoire;		
 	}
 	
+
 	
 
 }

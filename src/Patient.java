@@ -13,16 +13,12 @@ public class Patient {
 	String prenom; 
 	Date arriveeAuxUrgences;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	HashMap <Integer,Salle> listeSalle = new HashMap <Integer, Salle>();
+	LinkedList<Salle> listeSalle = new LinkedList<Salle>();
 	
 	public Patient(String n, String p, String date) throws ParseException {
 		this.nom=n;
 		this.prenom=p;
 		this.arriveeAuxUrgences = sdf.parse(date);
-		Salle salle0 = new Salle();
-		salle0.setArriveeDansLaSalle(this.arriveeAuxUrgences);
-		salle0.setTempsAttente(0);
-		listeSalle.put(0, salle0);
 	}
 	
 	public String getNom() {
@@ -50,11 +46,11 @@ public class Patient {
 	}
 	
 
-	public HashMap<Integer, Salle> getListeSalle() {
+	public LinkedList<Salle> getListeSalle() {
 		return listeSalle;
 	}
 
-	public void setListeSalle(HashMap<Integer, Salle> listeSalle) {
+	public void setListeSalle(LinkedList<Salle> listeSalle) {
 		this.listeSalle = listeSalle;
 	}
 
