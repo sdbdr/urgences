@@ -39,8 +39,12 @@ public class Salle {
 		this.tempsConsulation = tempsConsulation;
 	}
 
-	public String toString() {
+	/*public String toString() {
 		return "\n Arrivee : "+sdf.format(this.arriveeDansLaSalle)+"\n Temps d'attente : "+this.tempsAttente +"mns \n Temps consultation : "+this.tempsConsulation;
+	}*/
+	
+	public String toString() {
+		return sdf.format(this.arriveeDansLaSalle)+"; attente : "+this.tempsAttente +"; consultation : "+this.tempsConsulation;
 	}
 	
 	

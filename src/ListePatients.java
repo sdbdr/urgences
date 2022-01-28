@@ -55,16 +55,11 @@ public class ListePatients{
 	    	listePatientsUrgences.put(i,c);
 	    	i++;	    		    	
 	    }
-	    listePatientsUrgences.forEach((key, value) -> System.out.println(key + " " + value));
-	    System.out.println("-----------------");
-	    calculerTempsAttentes();
-	    
-	   /* for (i=0;i<nbPatients;i++) {
-	    	System.out.println(listePatientsUrgences.get(i).getListeSalle().get(0));
-	    }*/
+	    //listePatientsUrgences.forEach((key, value) -> System.out.println(key + " " + value));
+	    calculerTempsAttentes();   
+	   afficherPatientsDansSalle();	   
 	   	}
-
-	
+		
 	public void trierListePatients(LinkedList<Patient> liste) {
 		liste.sort(Comparator.comparing(Patient::getArriveeAuxUrgences));
 	}
@@ -98,20 +93,23 @@ public class ListePatients{
 
 	}
 	
-	public void afficherPatientsDansSalle() {
+	public void afficherPatientsDansSalle() throws ParseException {
 		
-		/*for (int i=1; i<nbPatients; i++) {
-			System.out.println(listePatientsUrgences.get(i).getPrenom()+" arrive à "+listePatientsUrgences.get(i-1).getListeSalle().get(0).getArriveeDansLaSalle()
-			+" attend "+listePatientsUrgences.get(i-1).getListeSalle().get(0).getTempsAttente()+" mns et sa consultation a duré "+
-					listePatientsUrgences.get(i-1).getListeSalle().get(0).getTempsConsulation());	
-		}*/
+
+		System.out.println("+----------------------------------------------------------------------------------+");
+		
+		System.out.printf( "|%-15s| %-15s| %-15s| %-15s| %-15s| %n", "Nom","Prenom", "Arrivee","Attente","Consultation" );	
+		System.out.println("+----------------------------------------------------------------------------------+");
 		
 		for (int i=0;i<nbPatients;i++) {
-			System.out.println(listePatientsUrgences.get(i));
-			System.out.println(listePatientsUrgences.get(i).getListeSalle());
-			
-			
-		}
+			String nom=listePatientsUrgences.get(i).getNom();			
+			String prenom=listePatientsUrgences.get(i).getPrenom();			
+			Date arrivee=listePatientsUrgences.get(i).getArriveeAuxUrgences();			
+			int attente=listePatientsUrgences.get(i).getListeSalle().get(0).getTempsAttente();			
+			int consultation=listePatientsUrgences.get(i).getListeSalle().get(0).getTempsConsulation();		
+			System.out.printf( " %-15s  %-15s  %-15s  %-15s  %-15s  %n", nom, prenom, arrivee.getHours()+":"+arrivee.getMinutes(), attente, consultation);					
+		}		
+		
 	}
 	
 	private static Date addMinutesToDate(int minutes, Date beforeTime){
@@ -120,8 +118,7 @@ public class ListePatients{
 	    long curTimeInMs = beforeTime.getTime();
 	    Date afterAddingMins = new Date(curTimeInMs + (minutes * ONE_MINUTE_IN_MILLIS));
 	    return afterAddingMins;
-	}
-	
+	}	
 
 	public String  toString() {
 		

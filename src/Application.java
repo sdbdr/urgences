@@ -20,11 +20,7 @@ public class Application {
 		
 		ListePatients listePatients = new ListePatients();
 		listePatients.listerLesPatients();
-		/*for (int i=0;i<20;i++) {
-			Random var = new Random();
-			//1 hour and std-deviation 15 minutes you'll need to call it as
-			System.out.println(var.nextGaussian()*2+12); 			
-		}*/
+
 		
 		
 
