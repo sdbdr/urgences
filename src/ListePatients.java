@@ -14,6 +14,7 @@ public class ListePatients{
 	private HashMap<Integer,Patient>listePatientsUrgences;
 	private int nbPatients;
 	static final long ONE_MINUTE_IN_MILLIS = 6000;
+	private int nbSalle = 2;
 	
 	public ListePatients() {
 		listePatientsUrgences = new HashMap<Integer,Patient>();
@@ -66,12 +67,39 @@ public class ListePatients{
 	
 	
 	public void calculerArriveeDansSalle() {
-
 		for (int i=0;i<listePatientsUrgences.size();i++) {
-			Salle salle = new Salle();
-			salle.setArriveeDansLaSalle(listePatientsUrgences.get(i).getArriveeAuxUrgences());
-			listePatientsUrgences.get(i).getListeSalle().add(salle);
-		}				
+			for (int j=0; j<nbSalle;j++) {
+				Salle salle = new Salle();
+				if (j==0) {				//salle0
+					salle.setTempsConsulation(salle.genererTempsConsultation(3,1));
+					salle.setArriveeDansLaSalle(listePatientsUrgences.get(i).getArriveeAuxUrgences());
+				}
+				else if (i>1) {
+					int tPassage = listePatientsUrgences.get(i-1).getListeSalle().get(0).getTempsAttente()+listePatientsUrgences.get(i-1).getListeSalle().get(0).getTempsConsulation();
+					Date date = (Date) listePatientsUrgences.get(i-1).getListeSalle().get(0).getArriveeDansLaSalle();
+					Date dateApres=addMinutesToDate(tPassage,date);
+					int diff = (int) (dateApres.getTime() - listePatientsUrgences.get(i).getListeSalle().get(0).getArriveeDansLaSalle().getTime());//as given
+					int tAttente = (int) TimeUnit.MILLISECONDS.toMinutes(diff); 
+					if (tAttente<0) {
+						tAttente=0;
+					}
+
+					listePatientsUrgences.get(i).getListeSalle().get(0).setTempsAttente(tAttente);	
+				}
+				else {				//salle1							
+					salle.setTempsConsulation(salle.genererTempsConsultation(10, 3));		
+					Date arrivee = listePatientsUrgences.get(i).getListeSalle().get(j-1).getArriveeDansLaSalle();
+					int attenteEtConsultation = listePatientsUrgences.get(i).getListeSalle().get(j-1).getTempsAttente()+listePatientsUrgences.get(i).getListeSalle().get(j-1).getTempsConsulation();
+					//System.out.println(attenteEtConsultation);
+					//System.out.println(arrivee);
+					salle.arriveeDansLaSalle=addMinutesToDate(attenteEtConsultation,arrivee);
+					
+				}
+				listePatientsUrgences.get(i).getListeSalle().add(salle);
+
+				
+			}
+		}
 	}
 	
 	
@@ -101,14 +129,17 @@ public class ListePatients{
 		System.out.printf( "|%-15s| %-15s| %-15s| %-15s| %-15s| %n", "Nom","Prenom", "Arrivee","Attente","Consultation" );	
 		System.out.println("+----------------------------------------------------------------------------------+");
 		
-		for (int i=0;i<nbPatients;i++) {
-			String nom=listePatientsUrgences.get(i).getNom();			
-			String prenom=listePatientsUrgences.get(i).getPrenom();			
-			Date arrivee=listePatientsUrgences.get(i).getArriveeAuxUrgences();			
-			int attente=listePatientsUrgences.get(i).getListeSalle().get(0).getTempsAttente();			
-			int consultation=listePatientsUrgences.get(i).getListeSalle().get(0).getTempsConsulation();		
-			System.out.printf( " %-15s  %-15s  %-15s  %-15s  %-15s  %n", nom, prenom, arrivee.getHours()+":"+arrivee.getMinutes(), attente, consultation);					
-		}		
+		for (int j=0;j<nbSalle;j++) {
+			System.out.println("Salle "+j);
+			for (int i=0;i<nbPatients;i++) {
+				String nom=listePatientsUrgences.get(i).getNom();			
+				String prenom=listePatientsUrgences.get(i).getPrenom();			
+				Date arrivee=listePatientsUrgences.get(i).getArriveeAuxUrgences();			
+				int attente=listePatientsUrgences.get(i).getListeSalle().get(j).getTempsAttente();			
+				int consultation=listePatientsUrgences.get(i).getListeSalle().get(j).getTempsConsulation();		
+				System.out.printf( " %-15s  %-15s  %-15s  %-15s  %-15s  %n", nom, prenom, arrivee.getHours()+":"+arrivee.getMinutes(), attente, consultation);					
+			}	
+		}
 		
 	}
 	

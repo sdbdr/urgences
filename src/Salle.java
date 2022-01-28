@@ -10,10 +10,6 @@ public class Salle {
 	int tempsConsulation;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-	public Salle() {
-		this.setTempsConsulation(genererTempsConsultation(3,1));
-	}
-	
 	public Date getArriveeDansLaSalle() {
 		return arriveeDansLaSalle;
 	}
